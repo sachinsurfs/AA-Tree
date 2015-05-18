@@ -25,12 +25,16 @@ class Tree
         Node *root;
         Tree();
         explicit Tree(int value);
-        /*To still be committed*/
-        explicit Tree(const Tree& rhs); //DOUBT: Why wasn't Copy Ctor made explicit in class?
+        /*Experimental*/
+        void del(Node* root);
+        void copy(const Node*);
+	Tree(const Tree& rhs); //DOUBT: Why wasn't Copy Ctor made explicit in class? Ans : To pass const Tree as well.
         Tree operator=(const Tree& rhs);
         ~Tree();
+        /*To be done*/
         void delet(int value);
-        int find(int value);
+        //int find(int value);
+	//Iterator Class
 };
 
 #endif

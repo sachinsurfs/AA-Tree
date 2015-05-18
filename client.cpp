@@ -14,10 +14,10 @@ int main()
     std::cout << "***********" << "\n" ;
     int i = 3;
     Tree newTree;
-    
+
     std::cout << "inserting 3" << "\n" ;
     newTree.insert(i);
-    
+
     std::cout << "inserting 4" << "\n" ;
     i = 4;
     newTree.insert(i);
@@ -38,11 +38,19 @@ int main()
     std::cout << "inserting 8" << "\n" ;
     i = 8;
     newTree.insert(i);
-    
- 	
-	std::cout << "printing ..." << "\n" ;
+
+
+    std::cout << "printing ..." << "\n" ;
     newTree.print(newTree.root);
-    
-    
+
+    std::cout << "Second tree" << "\n";
+    Tree new2(newTree);  
+    new2.print(new2.root);
+
+    std::cout << "Third tree" << "\n";
+    Tree new3(3);
+    new3 = new2;
+    new3.print(new3.root);
+
     return 0;
 }

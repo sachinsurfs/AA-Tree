@@ -1,13 +1,97 @@
 #include <iostream>
 #include "aa.h"
 
+
+/*
+ * Node Constructor
+ */
+
 Node::Node(int value):_value(value),left(NULL),right(NULL),parent(NULL),level(1),count(1){};
+
+/*
+ * Tree Constructors
+ */
 
 Tree::Tree():root(0){};
 
 Tree::Tree(int value):root(new Node(value)){};
 
-Tree::~Tree(){};
+/*
+ * Destructor
+ */
+
+Tree::~Tree()
+{
+    del(root);
+}
+
+/*
+ * Deleting Tree
+ */
+
+void Tree::del(Node* root)
+{
+    Node *temp = root;
+
+    if(root == NULL)
+        return;
+    if(root->left == NULL && root->right == NULL)
+    {		delete root;
+        return;
+    }
+    if(root->left)
+    {
+        del(root->left);
+    }
+
+    if(root->right)
+    {
+        del(root->right);
+    }
+
+    delete root;
+    return;
+
+}
+
+
+/*
+ * Copy Constructor
+ */
+
+Tree::Tree(const Tree& rhs):root(0)
+{
+    copy(rhs.root);
+}
+
+/*
+ * Assignment Operator
+ */
+Tree Tree::operator=(const Tree& rhs)
+{
+
+    if(this != &rhs)
+    {
+        del(root);
+        copy(rhs.root);
+    }
+    return *this;
+}
+
+/*
+ * Tree Copy Function
+ */
+void Tree::copy(const Node* temp)
+{
+    if (temp)
+    {
+        insert(temp->_value);
+        copy(temp->left);
+        copy(temp->right);
+    }
+    return;
+}
+
 
 /*
  * Skew Tree
