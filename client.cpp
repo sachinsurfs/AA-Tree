@@ -1,4 +1,5 @@
 #include <iostream>
+using std::ostream;
 #include "aa.h"
 
 using namespace std;

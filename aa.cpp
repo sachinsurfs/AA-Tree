@@ -1,12 +1,6 @@
 #include <iostream>
+using std::ostream;
 #include "aa.h"
-
-
-/*
- * Node Constructor
- */
-
-Node::Node(int value):_value(value),left(NULL),right(NULL),parent(NULL),level(1),count(1){};
 
 /*
  * Tree Constructors
@@ -29,28 +23,13 @@ Tree::~Tree()
  * Deleting Tree
  */
 
-void Tree::del(Node* root)
+void Tree::del(Tree::Node* root)
 {
-    Node *temp = root;
-
     if(root == NULL)
         return;
-    if(root->left == NULL && root->right == NULL)
-    {		delete root;
-        return;
-    }
-    if(root->left)
-    {
-        del(root->left);
-    }
-
-    if(root->right)
-    {
-        del(root->right);
-    }
-
+    del(root->left);
+    del(root->right);
     delete root;
-    return;
 
 }
 
@@ -81,7 +60,7 @@ Tree Tree::operator=(const Tree& rhs)
 /*
  * Tree Copy Function
  */
-void Tree::copy(const Node* temp)
+void Tree::copy(const Tree::Node* temp)
 {
     if (temp)
     {
@@ -97,7 +76,7 @@ void Tree::copy(const Node* temp)
  * Skew Tree
  */
 
-void Tree::skew(Node *temp)
+void Tree::skew(Tree::Node *temp)
 {
     Node *ptr = temp->left;
     if (temp->parent->left == temp)
@@ -116,7 +95,7 @@ void Tree::skew(Node *temp)
 /*
  * Splitting of AA Tree
  */
-bool Tree::split(Node *temp)
+bool Tree::split(Tree::Node *temp)
 {
     Node* ptr = temp->right;
     if (ptr && ptr->right && (ptr->right->level == temp->level))
@@ -140,7 +119,7 @@ bool Tree::split(Node *temp)
 /*
  * Rebalancing of AA Tree
  */
-void Tree::rebal(Node* temp)
+void Tree::rebal(Tree::Node* temp)
 {
     temp->left = NULL;
     temp->right = NULL;
@@ -204,7 +183,7 @@ void Tree::insert(int value)
 /*
  * Display Tree Elements
  */
-void Tree::print(Node* temp) const
+void Tree::print(Tree::Node* temp) const
 {
     if (!temp)
         return;
@@ -213,4 +192,16 @@ void Tree::print(Node* temp) const
     std::cout<<"  Level: "<<temp->level<< "\n";
     print(temp->right);
 }
+
+/*
+ * Send Tree To output stream
+ */
+ostream& operator<<(ostream& o, const Tree& t)
+{
+
+
+
+}
+
+
 
