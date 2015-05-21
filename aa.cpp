@@ -76,69 +76,66 @@ void Tree::copy(const Tree::Node* temp)
  * Skew Tree
  */
 
-void Tree::skew(Tree::Node *temp)
+Tree::Node* Tree::skew(Tree::Node *temp)
 {
-    Node *ptr = temp->left;
-    if (temp->parent->left == temp)
-        temp->parent->left = ptr;
-    else
-        temp->parent->right = ptr;
-    ptr->parent = temp->parent;
-    temp->parent = ptr;
-    temp->left = ptr->right;
-    if (temp->left != NULL)
-        temp->left->parent = temp;
-    ptr->right = temp;
-    temp->level = (temp->left ? temp->left->level + 1 : 1);
+	if (temp->left != NULL)
+	  if (temp->left->level == temp->level)   
+		   { 
+		    Node *ptr = temp->left;
+		    temp->left = ptr->right;
+		    if(ptr->right != NULL)
+			ptr->right->parent = temp;
+		   
+		    ptr->right = temp;
+		    ptr->parent = temp->parent;
+	            temp->parent = ptr;
+		    return ptr;
+		   }
+	return temp;
 }
 
 /*
  * Splitting of AA Tree
  */
-bool Tree::split(Tree::Node *temp)
+Tree::Node* Tree::split(Tree::Node *temp)
 {
-    Node* ptr = temp->right;
-    if (ptr && ptr->right && (ptr->right->level == temp->level))
-    {
-        if (temp->parent->left == temp)
-            temp->parent->left = ptr;
-        else
-            temp->parent->right = ptr;
-        ptr->parent = temp->parent;
-        temp->parent = ptr;
-        temp->right = ptr->left;
-        if (temp->right != NULL)
-            temp->right->parent = temp;
-        ptr->left = temp;
-        ptr->level = temp->level + 1;
-        return true;
-    }
-    return false;
-}
+   if(temp->right!=NULL && temp->right->right!=NULL)
+	if(temp->level == temp->right->right->level)
+	{
+	Node *ptr = temp->right;
+	temp->right = ptr->left;
+	if(ptr->left != NULL)
+		ptr->left->parent = temp;
+	ptr->left = temp;
+	ptr->parent = temp->parent;
+	temp->parent = ptr;
+	ptr->level = ptr->level + 1;
+	return ptr;
+	}
+    return temp;
+
+}    
+
 
 /*
  * Rebalancing of AA Tree
  */
 void Tree::rebal(Tree::Node* temp)
 {
-    temp->left = NULL;
-    temp->right = NULL;
-    temp->level = 1;
-    for (temp = temp->parent; temp != root; temp = temp->parent)
+    while(temp->parent != NULL)
     {
-        if (temp->level != (temp->left ? temp->left->level + 1 : 1 ))
-        {
-            skew(temp);
-            if (temp->right == NULL)
-                temp = temp->parent;
-            else if (temp->level != temp->right->level)
-                temp = temp->parent;
-        }
-        if (temp->parent != root)
-        {
-            if (split(temp->parent) == false)
-                break;
-        }
+	temp = temp->parent;
+	if(temp == root)
+	{
+		temp = skew(temp);
+		temp = split(temp);
+		root = temp;
+	}
+	else
+	{
+		temp = skew(temp);
+		temp = split(temp);
+	}
     }
 }
 
@@ -169,7 +166,7 @@ void Tree::insert(int value)
         {	prev->left = new Node(value);
             prev->left->parent = prev;
             rebal(prev->left);
-        }  else
+        }  else 
         {
             prev->right= new Node(value);
             prev->right->parent = prev;

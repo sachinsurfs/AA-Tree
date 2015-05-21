@@ -27,7 +27,7 @@ int main()
     i = 2;
     newTree.insert(i);
 
-
+/*
     std::cout << "inserting 7" << "\n" ;
     i = 7;
     newTree.insert(i);
@@ -40,10 +40,9 @@ int main()
     i = 8;
     newTree.insert(i);
 
-
     std::cout << "printing ..." << "\n" ;
-    newTree.print(newTree.root);
-
+    newTree.print(newTree.root);*/
+/*
     std::cout << "Second tree" << "\n";
     Tree new2(newTree);  
     new2.print(new2.root);
@@ -52,6 +51,6 @@ int main()
     Tree new3(3);
     new3 = new2;
     new3.print(new3.root);
-
+*/
     return 0;
 }

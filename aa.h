@@ -17,8 +17,8 @@ class Tree
             int count;
     };
 
-    void skew(Node *);
-    bool split(Node *);
+    Node* skew(Node *);
+    Node* split(Node *);
     void rebal(Node *);
     void del(Node* root);
     void copy(const Node*);
