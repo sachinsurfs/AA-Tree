@@ -78,20 +78,20 @@ void Tree::copy(const Tree::Node* temp)
 
 Tree::Node* Tree::skew(Tree::Node *temp)
 {
-	if (temp->left != NULL)
-	  if (temp->left->level == temp->level)   
-		   { 
-		    Node *ptr = temp->left;
-		    temp->left = ptr->right;
-		    if(ptr->right != NULL)
-			ptr->right->parent = temp;
-		   
-		    ptr->right = temp;
-		    ptr->parent = temp->parent;
-	            temp->parent = ptr;
-		    return ptr;
-		   }
-	return temp;
+    if (temp->left != NULL)
+        if (temp->left->level == temp->level)   
+        { 
+            Node *ptr = temp->left;
+            temp->left = ptr->right;
+            if(ptr->right != NULL)
+                ptr->right->parent = temp;
+
+            ptr->right = temp;
+            ptr->parent = temp->parent;
+            temp->parent = ptr;
+            return ptr;
+        }
+    return temp;
 }
 
 /*
@@ -99,19 +99,21 @@ Tree::Node* Tree::skew(Tree::Node *temp)
  */
 Tree::Node* Tree::split(Tree::Node *temp)
 {
-   if(temp->right!=NULL && temp->right->right!=NULL)
-	if(temp->level == temp->right->right->level)
-	{
-	Node *ptr = temp->right;
-	temp->right = ptr->left;
-	if(ptr->left != NULL)
-		ptr->left->parent = temp;
-	ptr->left = temp;
-	ptr->parent = temp->parent;
-	temp->parent = ptr;
-	ptr->level = ptr->level + 1;
-	return ptr;
-	}
+    if(temp->right!=NULL && temp->right->right!=NULL)
+        if(temp->level == temp->right->right->level)
+        {
+            Node *ptr = temp->right;
+            temp->right = ptr->left;
+            if(ptr->left != NULL)
+                ptr->left->parent = temp;
+            ptr->left = temp;
+            ptr->parent = temp->parent;
+            temp->parent = ptr;
+            if(ptr->parent != NULL)
+                ptr->parent->right = ptr;
+            ptr->level = ptr->level + 1;
+            return ptr;
+        }
     return temp;
 
 }    
@@ -124,18 +126,18 @@ void Tree::rebal(Tree::Node* temp)
 {
     while(temp->parent != NULL)
     {
-	temp = temp->parent;
-	if(temp == root)
-	{
-		temp = skew(temp);
-		temp = split(temp);
-		root = temp;
-	}
-	else
-	{
-		temp = skew(temp);
-		temp = split(temp);
-	}
+        temp = temp->parent;
+        if(temp == root)
+        {
+            temp = skew(temp);
+            temp = split(temp);
+            root = temp;
+        }
+        else
+        {
+            temp = skew(temp);
+            temp = split(temp);
+        }
     }
 }
 
