@@ -85,10 +85,11 @@ Tree::Node* Tree::skew(Tree::Node *temp)
             temp->left = ptr->right;
             if(ptr->right != NULL)
                 ptr->right->parent = temp;
-
             ptr->right = temp;
             ptr->parent = temp->parent;
             temp->parent = ptr;
+	    if(ptr->parent != NULL)
+                ptr->parent->left = ptr;
             return ptr;
         }
     return temp;
